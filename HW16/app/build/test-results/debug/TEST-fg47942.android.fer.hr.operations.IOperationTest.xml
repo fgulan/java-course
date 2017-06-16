@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fg47942.android.fer.hr.operations.IOperationTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2015-07-03T07:44:05" hostname="MacBook-Pro-od-Josip.local" time="0.005">
+  <properties/>
+  <testcase name="testAddOperation" classname="fg47942.android.fer.hr.operations.IOperationTest" time="0.002"/>
+  <testcase name="testDivOperation" classname="fg47942.android.fer.hr.operations.IOperationTest" time="0.001"/>
+  <testcase name="testSubOperation" classname="fg47942.android.fer.hr.operations.IOperationTest" time="0.001"/>
+  <testcase name="testMulOperation" classname="fg47942.android.fer.hr.operations.IOperationTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
