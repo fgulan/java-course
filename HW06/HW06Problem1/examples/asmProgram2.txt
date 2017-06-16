@@ -1,0 +1,47 @@
+# Ovaj program ispisuje prvih 5 f-brojeva! (ili sto se vec postavi u @brojac)
+
+
+		load r8, @nula		; koji broj ispisujemo?
+		load r15, @nula		; fiksna nula za usporedbu s r5
+		load r0, @msg1		; ucitaj pozdravnu poruku
+		load r7, @msg2		; ucitaj ". broj je: "
+		load r6, @msg3		; ucitaj "\n"
+
+		echo r0			; ispisi pozdravnu poruku
+		load r0, @nula		; ucitaj 0. f-broj
+		load r1, @jedan		; ucitaj 1. f-broj
+		echo r8			; ispisi "0"
+		echo r7			; ispisi ". broj je: "
+		echo r0			; ispisi broj
+		echo r6			; dodaj enter za novi redak
+		increment r8		; predji na sljedeci broj
+		echo r8			; ispisi "1"
+		echo r7			; ispisi ". broj je: "
+		echo r1			; ispisi broj
+		echo r6			; predji na sljedeci broj
+		increment r8		; predji na sljedeci broj
+		load r5, @brojac	; ucitaj koliko sve skupa brojeva zelimo?
+		decrement r5		; umanji za dva jer smo to vec ispisali
+		decrement r5
+@petlja:	testEquals r5, r15	; je li nam jos sto ostalo ili smo na nuli?
+		jumpIfTrue @gotovo	; ako smo na nuli, zavrsi petlju
+		decrement r5		; umanji brojac preostalih
+		move r3, r1		; spasi r1
+		add r1, r0, r1		; u r1 stavi sumu r0+r1
+		move r0, r3		; restauriraj r0 na spasenu vrijednost od r1
+		echo r8			; ispisi koji broj ispisujemo
+		increment r8		; predji na sljedeci broj
+		echo r7			; ispisi ". broj je: "
+		echo r1			; ispisi broj
+		echo r6			; predji na sljedeci broj
+		jump @petlja		; vrati se u petlju na testiranje
+@gotovo:	halt			; zaustavi procesor
+
+# Slijede dodatni podaci koji su smjesteni u memoriju
+
+@msg1:		DEFSTR "Program za ispis fib. brojeva.\n"
+@msg2:		DEFSTR ". broj je: "
+@msg3:		DEFSTR "\n"
+@nula:		DEFINT 0
+@jedan:		DEFINT 1
+@brojac:	DEFINT 5

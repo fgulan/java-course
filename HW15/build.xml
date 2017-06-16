@@ -1,0 +1,254 @@
+<project name="0036479428" default="jar" basedir="." xmlns:jacoco="antlib:org.jacoco.ant">
+
+	<description>
+    Build datoteka za zadacu HW15-0036479428.
+  </description>
+
+	<!-- Postavljanje globalnih varijabli -->
+	<property name="src" location="src" />
+	<property name="src.java" location="${src}/main/java" />
+	<property name="src.test" location="${src}/test/java" />
+	<property name="build" location="build" />
+	<property name="build.classes" location="${build}/classes" />
+	<property name="build.test" location="${build}/test" />
+	<property name="dist" location="dist" />
+	<property name="dist.lib" location="${dist}/lib" />
+	<property file="config.properties" />
+	<property name="weblib" location="weblib" />
+	<property name="lib" location="web/aplikacija5/WEB-INF/lib" />
+	<property name="web" location="web/aplikacija5" />
+
+	<!-- Definiranje staze za prevođenje koda -->
+	<path id="compile.path">
+		<pathelement location="${build.classes}" />
+		<fileset dir="${weblib}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Definiranje staze za prevođenje testova -->
+	<path id="test.path">
+		<path refid="compile.path" />
+		<pathelement location="${build.test}" />
+		<fileset dir="${junit.home}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${weblib}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<path id="javadoc.path">
+		<pathelement location="${src.java}" />
+		<fileset dir="${weblib}">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Definiranje za jacoco -->
+	<taskdef uri="antlib:org.jacoco.ant" resource="org/jacoco/ant/antlib.xml">
+		<classpath path="${jacoco.home}/lib/jacocoant.jar" />
+	</taskdef>
+
+
+	<!-- Definiranje staze do PMD biblioteka: -->
+	<path id="pmd.lib">
+		<fileset dir="${pmd.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+
+	<!-- Definiranje naredbi koje pokreću PMD analize -->
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.lib" />
+	<taskdef name="cpd" classname="net.sourceforge.pmd.cpd.CPDTask" classpathref="pmd.lib" />
+
+	<target name="init">
+		<!-- Stvaranje vremenske oznake -->
+		<tstamp />
+		<!-- Stvaranje potrebnih direktorija -->
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}" />
+	</target>
+
+
+	<target name="compile" depends="init" description="Prevođenje izvornog koda">
+		<mkdir dir="${build.classes}" />
+
+		<!-- Prevođenje Java koda iz ${src} u ${build} -->
+		<javac srcdir="${src.java}" destdir="${build.classes}" classpathref="compile.path" encoding="UTF-8" debug="on" debuglevel="lines,vars,source" includeAntRuntime="false" />
+
+		<copy todir="${build.classes}">
+			<fileset dir="${src.java}" excludes="**/*.java" />
+		</copy>
+	</target>
+
+
+	<target name="compile-tests" depends="compile" description="Prevođenje izvornog koda testova">
+		<mkdir dir="${build.test}" />
+
+		<!-- Prevođenje Java koda iz ${src} u ${build} -->
+		<javac srcdir="${src.test}" destdir="${build.test}" classpathref="test.path" encoding="UTF-8" debug="on" debuglevel="lines,vars,source" includeAntRuntime="false" />
+	</target>
+
+
+	<target name="run-tests" depends="compile-tests" description="Izvođenje definiranih testova">
+
+		<mkdir dir="${dist}/test-reports/xml" />
+		<mkdir dir="${dist}/test-reports/html" />
+		<mkdir dir="${dist}/test-reports/coverage" />
+
+		<!-- Pokreni testove uz analizu pokrivenosti -->
+		<jacoco:coverage destfile="${dist}/test-reports/xml/jacoco.exec">
+			<junit printsummary="yes" haltonfailure="yes" fork="true" forkmode="once">
+				<classpath refid="test.path" />
+				<formatter type="plain" />
+				<formatter type="xml" />
+
+				<batchtest fork="yes" todir="${dist}/test-reports/xml">
+					<fileset dir="${src.test}">
+						<include name="**/*Test*.java" />
+					</fileset>
+				</batchtest>
+
+			</junit>
+		</jacoco:coverage>
+
+		<!-- Generiraj izvještaj na temelju testova -->
+		<junitreport todir="${dist}/test-reports/xml">
+			<fileset dir="${dist}/test-reports/xml">
+				<include name="TEST-*.xml" />
+			</fileset>
+			<report format="frames" todir="${dist}/test-reports/html" />
+		</junitreport>
+
+		<!-- Generiraj izvještaj o pokrivenosti koda testovima -->
+		<jacoco:report>
+			<executiondata>
+				<file file="${dist}/test-reports/xml/jacoco.exec" />
+			</executiondata>
+			<structure name="${ant.project.name}">
+				<classfiles>
+					<fileset dir="${build.classes}" />
+					<fileset dir="${build.test}" />
+				</classfiles>
+
+				<sourcefiles encoding="UTF-8">
+					<fileset dir="${src.java}" />
+					<fileset dir="${src.test}" />
+				</sourcefiles>
+			</structure>
+			<html destdir="${dist}/test-reports/coverage" />
+		</jacoco:report>
+	</target>
+
+	<target name="pmd" depends="compile">
+		<mkdir dir="${dist}/pmd/xml" />
+		<mkdir dir="${dist}/pmd/html" />
+		<pmd shortFilenames="true" encoding="UTF-8">
+			<ruleset>rulesets/java/basic.xml</ruleset>
+			<ruleset>rulesets/java/braces.xml</ruleset>
+			<ruleset>rulesets/java/codesize.xml</ruleset>
+			<ruleset>rulesets/java/controversial.xml</ruleset>
+			<ruleset>rulesets/java/design.xml</ruleset>
+			<ruleset>rulesets/java/finalizers.xml</ruleset>
+			<ruleset>rulesets/java/imports.xml</ruleset>
+			<ruleset>rulesets/java/naming.xml</ruleset>
+			<ruleset>rulesets/java/optimizations.xml</ruleset>
+			<ruleset>rulesets/java/strictexception.xml</ruleset>
+			<ruleset>rulesets/java/strings.xml</ruleset>
+			<ruleset>rulesets/java/sunsecure.xml</ruleset>
+			<ruleset>rulesets/java/typeresolution.xml</ruleset>
+			<ruleset>rulesets/java/unusedcode.xml</ruleset>
+			<ruleset>rulesets/java/unnecessary.xml</ruleset>
+			<formatter type="xml" toFile="${dist}/pmd/xml/pmd_report.xml" />
+			<fileset dir="${src.java}">
+				<include name="**/*.java" />
+			</fileset>
+		</pmd>
+
+		<!-- Ovo ćemo preskočiti zbog problema s generiranjem ispravne kodne stranice za XML izvještaj. Nisam našao način
+	        kako postaviti tu kodnu stranicu. -->
+		<!-- cpd encoding="UTF-8" minimumTokenCount="10" outputFile="${dist}/pmd/xml/cpd_report.xml" format="xml">
+	     <fileset dir="src">
+	       <include name="**/*.java"/>
+	     </fileset>
+	   </cpd>
+	   
+	   <xslt includes="cpd_report.xml" basedir="${dist}/pmd/xml" destdir="${dist}/pmd/html" extension=".html" style="${pmd.home}/etc/xslt/cpdhtml.xslt" >
+	     <classpath>
+	       <fileset dir="${xalan.home}">
+	         <include name="*.jar"/>
+	       </fileset>
+	     </classpath>
+	   </xslt -->
+
+		<xslt includes="pmd_report.xml" basedir="${dist}/pmd/xml" destdir="${dist}/pmd/html" extension=".html" style="${pmd.home}/etc/xslt/wz-pmd-report.xslt">
+			<classpath>
+				<fileset dir="${xalan.home}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</xslt>
+	</target>
+
+
+	<target name="quality" depends="run-tests, pmd" description="Ispitivanje kvalitete koda">
+	</target>
+
+	<target name="javadoc" depends="init" description="Generiranje dokumentacije">
+		<!-- Stvaranje direktorija za distribuciju -->
+		<mkdir dir="${dist}/doc" />
+		<javadoc packagenames="hr.*" sourcepathref="javadoc.path" defaultexcludes="yes" destdir="${dist}/doc" encoding="UTF-8" docencoding="UTF-8" charset="UTF-8" author="true" version="true" use="true" windowtitle="Dokumentacija projekta ${ant.project.name}">
+			<doctitle>
+				<![CDATA[<h1>Dokumentacija</h1>]]>
+			</doctitle>
+		<classpath>
+			<fileset dir="${weblib}" />
+			<fileset dir="${lib}" />
+		</classpath>
+		<bottom>
+			<![CDATA[<i>Copyright &#169; 2014 ACME. All Rights Reserved.</i>]]>
+        </bottom>
+</javadoc>
+</target>
+
+<target name="jar" depends="compile" description="Pakiranje programa u arhivu JAR">
+<!-- Stvaranje direktorija za distribuciju -->
+<mkdir dir="${dist.lib}" />
+<jar jarfile="${dist.lib}/server.jar" basedir="${build.classes}">
+</jar>
+</target>
+
+<target name="war" depends="compile" description=" WAR ">
+<war destfile="${dist}/aplikacija5.war" webxml="web/aplikacija5/WEB-INF/web.xml">
+	<fileset dir="web/aplikacija5" />
+	<lib dir="${lib}">
+	</lib>
+	<lib dir="${weblib}">
+	</lib>
+	<classes dir="${build.classes}" />
+</war>
+</target>
+
+<target name="reports" depends="quality, javadoc" description="Generiranje dokumentacije">
+<!-- Dododatno još i generiranje dokumentacije -->
+</target>
+
+<target name="clean" description="Brisanje generiranog sadržaja">
+
+<!-- Obriši direktorije ${build} i ${dist} -->
+<delete dir="${build}" failonerror="false" />
+<delete dir="${dist}" failonerror="false" />
+</target>
+
+</project>

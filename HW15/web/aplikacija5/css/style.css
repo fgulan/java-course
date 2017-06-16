@@ -1,0 +1,25 @@
+.firstColumn {
+	font-family: cursive;
+	font-weight: bold;
+	font-size: small;
+}
+
+.secondColumn {
+	font-family: inherit;
+	font-weight: bold;
+	font-size: small;
+}
+
+.greska {
+	font-family: sans-serif;
+	font-weight: bold;
+	font-size: small;
+	color: red;
+}
+
+.loginText {
+	text-align: right;
+	font-family: cursive;
+	font-size: medium;
+	padding-right: 3%;
+}

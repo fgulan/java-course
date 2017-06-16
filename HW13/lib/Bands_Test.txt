@@ -1,0 +1,7 @@
+1	The Beatles	https://www.youtube.com/watch?v=z9ypq6_5bsg
+2	The Platters	http://www.geocities.com/~goldenoldies/SmokeGetsInYourEyes-Platters-ver2.mid
+3	The Beach Boys	http://www.geocities.com/~goldenoldies/SurfinUSA-BeachBoys.mid
+4	The Four Seasons	http://www.geocities.com/~goldenoldies/BigGirlsDontCry-FourSeasons.mid
+5	The Marcels	http://www.geocities.com/~goldenoldies/Bluemoon-Marcels.mid
+6	The Everly Brothers	http://www.geocities.com/~goldenoldies/All.I.HaveToDoIsDream-EverlyBrothers.mid
+7	The Mamas And The Papas	http://www.geocities.com/~goldenoldies/CaliforniaDreaming-Mamas-Papas.mid

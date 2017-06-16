@@ -1,0 +1,21 @@
+﻿Example \{$=1$}. Now actually write one {$=1$}
+
+This\{ is {$=    "   \t \n \r \\    "    $}s \
+{$ FOR year 1 last_year $} ample {$ FOr j_a_v_a "-1" 10 "1" $}
+{$END$} 
+ text. 
+{$    FOR    i  "0"    "2"   "5" $}
+{$
+END
+$}
+{$ FoR c_sharp "2.3" j_a_v_a $} h {$END$}
+{$=$}
+{$= @math var "5text text  \""25var$}
+{$END$} {$ =   $}
+ Joe "Long" Smith ""Joe \\"Long\\" Smith"" 
+{$ FOR i 1 2 $} This isdfs \{$= i a$}-th time this 
+{$ FOR asdfi 1 2.3 1 $}
+message is generated.
+{$="\""$} 
+{$END$} 
+{$END$}

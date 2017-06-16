@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Calculus</string>
+    <string name="action_settings">Postavke</string>
+    <string name="title_activity_calculus">Rezultat</string>
+    <string name="title_activity_form">Host</string>
+    <string name="add_numbers">Unesite dva broja i odaberite operaciju!</string>
+    <string name="enter_first_variable">Unesite prvu vrijednost</string>
+    <string name="enter_second_variable">Unesite drugu vrijednost</string>
+    <string name="calculate">Izračunaj</string>
+    <string name="return_string">Povratak</string>
+    <string name="send">Pošalji</string>
+    <string name="number_error">Jedan ili više brojeva nisu zadani!</string>
+    <string name="operation_error">Nedozvoljena operacija</string>
+    <string name="division_by_zero">Dijeljenje s nulom!</string>
+    <string name="operation_result">Rezultat obavljenje operacije</string>
+    <string name="no_operation_error">Još ni jedna operacija nije obavljena</string>
+    <string name="result">Rezltat operacije</string>
+    <string name="execution_error">Izvođenje je bilo neuspješno, uzrok:</string>
+    <string name="no_email_clients">Ne postoji e-mail klijent</string>
+    <string name="to_be">je</string>
+    <string name="report">dz report</string>
+    <string name="unknown">Nepoznat rezultat</string>
+    <string name="send_mail">Pošalji mail...</string>
+</resources>

@@ -1,0 +1,39 @@
+			load r1, @brojac
+			load r2, @nula
+			load r3, @newline
+			load r4, @tekst
+			load r5, @kraj
+			
+@petlja:	load r0, @poruka		; ispisi poruku
+			echo r0
+			iinput @broj
+			jumpIfTrue @ispis1
+			load r0, @greska
+			echo r0
+			jump @petlja
+			
+@ispis1:	load r0, @broj
+			echo r4
+			echo r1
+			echo r5
+			
+@ispis:		testEquals r1, r2
+			jumpIfTrue @gotovo
+			increment r0
+			echo r0
+			echo r3
+			decrement r1
+			jump @ispis
+@gotovo:	halt				; zaustavi procesor
+
+
+#podaci koje koristimo u programu
+
+@poruka:	DEFSTR "Unesite pocetni broj: "
+@greska:	DEFSTR "Unos nije moguce protumaciti kao cijeli broj.\n"
+@newline:	DEFSTR "\n"
+@tekst:		DEFSTR "Sljedecih "
+@kraj:		DEFSTR " brojeva su:\n"
+@broj:		DEFINT 0
+@brojac:	DEFINT 5
+@nula:		DEFINT 0

@@ -1,0 +1,17 @@
+#Ovaj program 3 puta ispisuje "Hello world!"
+
+			load r0, @brojac		; ucitaj 3 u registar r0
+			load r1, @nula		; ucitaj 0 u registar r1
+			load r7, @poruka		; ucitaj poruku u r7
+@petlja:	testEquals r0, r1		; je li r0 pao na nulu?
+			jumpIfTrue @gotovo	; ako je, gotovi smo
+			decrement r0		; umanji r0
+			echo r7			; ispisi na konzolu poruku
+			jump @petlja		; skoci natrag u petlju
+@gotovo:	halt				; zaustavi procesor
+
+#podaci koje koristimo u programu
+
+@poruka:	DEFSTR "Hello world!\n"	; poruka na jednoj mem. lokaciji
+@brojac:	DEFINT 3			; broj 3 na drugoj mem. lokaciji
+@nula:		DEFINT 0			; broj 0 na trecoj mem. lokaciji

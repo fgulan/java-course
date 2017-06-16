@@ -1,0 +1,4 @@
+1	Fender Precision Bass	http://intl.fender.com/en-HR/basses/precision-bass/
+2	Fender Jazz Bass	http://intl.fender.com/en-HR/basses/jazz-bass/
+3	Rickenbacker 4001 Bass	https://en.wikipedia.org/wiki/Rickenbacker_4001
+4	Yamaha TRBX504	http://usa.yamaha.com/products/musical-instruments/guitars-basses/el-basses/trbx/trbx504/

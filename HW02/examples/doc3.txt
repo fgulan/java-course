@@ -1,0 +1,3 @@
+﻿{$ FOR i 1 "string \"" 2$} This text{$END$} 
+\{$\{= i a$}-th time this 
+\{$ FOR
